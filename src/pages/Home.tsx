@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useEffect, useRef, useState } from "react";
 import apiManager from "../api/apiManager";
 import DateCard from "../components/DateCard";
