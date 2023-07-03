@@ -2,7 +2,7 @@ class ApiService {
   async apiGET_CurrentWeather(lat: string, lon: string) {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=06c81a05ffd1f221a00746aafdc361f0`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}`
       );
       const data = await response.json();
       return data;
@@ -14,7 +14,7 @@ class ApiService {
   async apiGET_ForecastedWeather(id: string) {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=06c81a05ffd1f221a00746aafdc361f0`
+        `https://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${process.env.REACT_APP_API_KEY}`
       );
       const data = await response.json();
       return data;
@@ -36,4 +36,5 @@ class ApiService {
   }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new ApiService();
