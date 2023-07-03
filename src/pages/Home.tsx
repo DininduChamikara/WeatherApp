@@ -180,6 +180,7 @@ const Home: React.FC<Props> = ({setUserState}) => {
             <div className="font-bold text-xl md:text-5xl mb-1 md:mb-2 text-blue-900">
               Weather Forecast App
             </div>
+            
             <div className="cursor-pointer" onClick={()=>{
               Swal.fire({
                 title: 'Do you want to logout the system?',
