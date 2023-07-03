@@ -1,8 +1,25 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import backgroundImage from "../images/weather_bg.jpg";
-import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+});
+
+type Props = {
+  setUserState: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Login: React.FC<Props> = ({setUserState}) => {
 
   const navigate = useNavigate();
 
@@ -21,10 +38,19 @@ function Login() {
     e.preventDefault();
 
     if (form.username === "admin" && form.password === "123"){
-      // alert("Login Successfull");
-      navigate("/home")
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully'
+      }).then(function(){
+        setUserState(true);
+        navigate("/home");
+      });
+      
     }else {
-      alert("Invalid username or password");
+      Toast.fire({
+        icon: 'error',
+        title: 'Invalid username or password'
+      })
     }
 
   }
@@ -34,7 +60,7 @@ function Login() {
       className="relative w-full h-screen mx-auto"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute top-20 left-20 opacity-80 w-1/3">
+      <div className="absolute top-0 left-0 p-5 md:top-20 md:left-20 opacity-80 w-full md:w-1/3">
         <div className="border-2 border-gray-300 p-2 rounded-2xl">
           <div className="px-6 py-4 bg-gray-500 rounded-2xl">
             <div className="font-bold text-5xl mb-2 text-blue-900">

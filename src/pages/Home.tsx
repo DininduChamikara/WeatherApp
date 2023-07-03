@@ -5,6 +5,10 @@ import DetailsCard from "../components/DetailsCard";
 import SeeMoreBtn from "../components/SeeMoreBtn";
 import WeatherCard from "../components/WeatherCard";
 import backgroundImage from "../images/weather_bg.jpg";
+import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 type WeatherRecord = {
   no: number;
@@ -18,7 +22,26 @@ type WeatherRecord = {
   airPressure: number;
 };
 
-function Home() {
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
+
+type Props = {
+  setUserState: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Home: React.FC<Props> = ({setUserState}) => {
+
+  const navigate = useNavigate();
+
   const [expanded, setExpanded] = useState(false);
 
   const [todayWetherRecordId, setTodayWetherRecordId] = useState("");
@@ -81,6 +104,11 @@ function Home() {
             airPressure: res.main.pressure,
           });
           setTodayWetherRecordId(res.id);
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: res.message,
+          });
         }
       }
     });
@@ -107,6 +135,7 @@ function Home() {
             airPressure: res.main.pressure,
           });
           setTodayWetherRecordId(res.id);
+        } else {
         }
       }
     });
@@ -145,23 +174,41 @@ function Home() {
       className="relative w-full h-screen mx-auto flex items-center justify-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="border-2 border-gray-300 p-2 rounded-2xl w-2/3">
+      <div className="mt-10 md:mt-0 border-2 border-gray-300 p-2 rounded-2xl w-full md:w-2/3">
         <div className="bg-gray-500 opacity-80 rounded-2xl mb-2">
-          <div className="px-6 py-4">
-            <div className="font-bold text-5xl mb-2 text-blue-900">
+          <div className="px-6 py-4 flex justify-between items-center">
+            <div className="font-bold text-xl md:text-5xl mb-1 md:mb-2 text-blue-900">
               Weather Forecast App
+            </div>
+            <div className="cursor-pointer" onClick={()=>{
+              Swal.fire({
+                title: 'Do you want to logout the system?',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  setUserState(false);
+                  navigate("/");
+                }
+              })
+            }}>
+              <FontAwesomeIcon
+                icon={faRightFromBracket}
+                size="2x"
+                color="white"
+              />
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <div className="w-1/4">
+        <div className="md:flex gap-2">
+          <div className="w-full md:w-1/4">
             <WeatherCard weatherObj={dateWeatherInfo} />
           </div>
-          <div className="w-3/4">
+          <div className="w-full pt-2 md:pt-0 md:w-3/4">
             <div>
               <form ref={formRef} onSubmit={handleSubmit}>
-                <div className="flex gap-2">
-                  <div className="w-4/5">
+                <div className="md:flex gap-2">
+                  <div className="w-full md:w-4/5">
                     <div className="grid gap-2 mb-2 md:grid-cols-2">
                       <div>
                         <input
@@ -187,7 +234,7 @@ function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-1/5">
+                  <div className="md:w-1/5 mb-2 md:mb-0">
                     <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
                       Search
                     </button>
@@ -197,7 +244,7 @@ function Home() {
             </div>
 
             <div className="relative bg-gray-500 opacity-50 rounded-2xl mb-2">
-              <div className="relative z-10 opacity-100 flex">
+              <div className="relative z-10 opacity-100 flex overflow-x-auto flex-nowrap">
                 {forecastedWetherInfo.map((item, index) => {
                   if (expanded) {
                     return (
@@ -216,7 +263,7 @@ function Home() {
                             windSpeed: item.windSpeed,
                             humidity: item.humidity,
                             airPressure: item.airPressure,
-                          })
+                          });
                         }}
                       >
                         <DateCard
@@ -247,7 +294,7 @@ function Home() {
                               windSpeed: item.windSpeed,
                               humidity: item.humidity,
                               airPressure: item.airPressure,
-                            })
+                            });
                           }}
                         >
                           <DateCard
