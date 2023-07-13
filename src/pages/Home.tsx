@@ -172,10 +172,10 @@ const Home: React.FC<Props> = ({setUserState}) => {
 
   return (
     <div
-      className="relative w-full h-screen mx-auto flex items-center justify-center"
+      className="relative w-full h-screen mx-auto flex items-center justify-center p-5 h-[110vh] md:h-[100vh]"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="mt-10 md:mt-0 border-2 border-gray-300 p-2 rounded-2xl w-full md:w-2/3">
+      <div className="md:mt-0 border-2 border-gray-300 p-2 rounded-2xl w-full md:w-2/3">
         <div className="bg-gray-500 opacity-80 rounded-2xl mb-2">
           <div className="px-6 py-4 flex justify-between items-center">
             <div className="font-bold text-xl md:text-5xl mb-1 md:mb-2 text-blue-900">
