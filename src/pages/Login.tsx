@@ -60,7 +60,7 @@ const Login: React.FC<Props> = ({setUserState}) => {
       className="relative w-full h-screen mx-auto"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute top-0 left-0 p-5 md:top-20 md:left-20 opacity-80 w-full md:w-1/3">
+      <div className="md:absolute p-5 md:top-20 md:left-20 opacity-80 w-full md:w-1/3">
         <div className="border-2 border-gray-300 p-2 rounded-2xl">
           <div className="px-6 py-4 bg-gray-500 rounded-2xl">
             <div className="font-bold text-5xl mb-2 text-blue-900">
